@@ -76,6 +76,7 @@ app.put('/api/tareas/:id', async (req, res) => {
       [completada, id]
     );
     
+    
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Tarea no encontrada' });
     }
