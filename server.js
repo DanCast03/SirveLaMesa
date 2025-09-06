@@ -76,7 +76,6 @@ app.put('/api/tareas/:id', async (req, res) => {
       [completada, id]
     );
     
-    
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Tarea no encontrada' });
     }
@@ -108,6 +107,55 @@ app.delete('/api/tareas/:id', async (req, res) => {
 // Ruta para servir la página principal
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Ruta para servir el panel administrativo
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
+// Ruta de administración para ver datos en formato JSON
+app.get('/admin/data', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM tareas ORDER BY fecha_creacion DESC');
+    res.json({
+      total_tareas: result.rows.length,
+      tareas: result.rows,
+      conexion_db: 'OK',
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ 
+      error: 'Error al conectar con la base de datos', 
+      conexion_db: 'ERROR',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Ruta para ver estadísticas de la base de datos
+app.get('/admin/stats', async (req, res) => {
+  try {
+    const totalResult = await pool.query('SELECT COUNT(*) as total FROM tareas');
+    const completedResult = await pool.query('SELECT COUNT(*) as completed FROM tareas WHERE completada = true');
+    const pendingResult = await pool.query('SELECT COUNT(*) as pending FROM tareas WHERE completada = false');
+    
+    res.json({
+      total_tareas: parseInt(totalResult.rows[0].total),
+      tareas_completadas: parseInt(completedResult.rows[0].completed),
+      tareas_pendientes: parseInt(pendingResult.rows[0].pending),
+      conexion_db: 'OK',
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ 
+      error: 'Error al obtener estadísticas', 
+      conexion_db: 'ERROR',
+      timestamp: new Date().toISOString()
+    });
+  }
 });
 
 // Inicializar servidor
