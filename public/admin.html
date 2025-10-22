@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Administrativo - SirveLaMesa</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Panel Administrativo - Sirve la Mesa</title>
     <style>
         * {
             margin: 0;
@@ -20,92 +19,27 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+        }
+
+        header {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
             padding: 30px;
-            text-align: center;
-            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
         }
 
-        .header h1 {
-            font-size: 2.5rem;
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
             margin-bottom: 10px;
         }
 
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .back-btn {
-            position: absolute;
-            left: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-50%) translateX(-3px);
-        }
-
-        .content {
-            padding: 30px;
-        }
-
-        .status-bar {
-            background: #e8f5e8;
-            border: 1px solid #4caf50;
-            color: #2e7d2e;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            text-align: center;
-            font-weight: 500;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .status-bar.error {
-            background: #ffebee;
-            border-color: #f44336;
-            color: #c62828;
-        }
-
-        .refresh-btn {
-            background: #4caf50;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .refresh-btn:hover {
-            background: #45a049;
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
         }
 
         .stats-grid {
@@ -116,96 +50,45 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: white;
             padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-            transition: transform 0.3s ease;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-        }
-
-        .stat-card.completed {
-            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-        }
-
-        .stat-card.pending {
-            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
-        }
-
-        .stat-card.total {
-            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
         .stat-label {
-            font-size: 1.1rem;
-            opacity: 0.9;
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
 
-        .charts-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
+        .stat-value {
+            color: #667eea;
+            font-size: 2.5em;
+            font-weight: bold;
         }
 
-        .chart-card {
+        .section {
             background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .chart-title {
-            font-size: 1.5rem;
-            font-weight: 600;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             margin-bottom: 20px;
-            color: #333;
-            text-align: center;
         }
 
-        .chart-container {
-            position: relative;
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .data-table {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .table-header {
-            background: #f5f5f5;
-            padding: 20px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .table-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .table-container {
-            max-height: 400px;
-            overflow-y: auto;
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
         }
 
         table {
@@ -214,389 +97,311 @@
         }
 
         th, td {
-            padding: 15px;
+            padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #ddd;
         }
 
         th {
-            background: #f8f9fa;
-            font-weight: 600;
-            color: #333;
-            position: sticky;
-            top: 0;
+            background-color: #667eea;
+            color: white;
+            font-weight: bold;
         }
 
         tr:hover {
-            background: #f8f9fa;
+            background-color: #f5f5f5;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+        }
+
+        .btn-success {
+            background: #48c774;
+        }
+
+        .btn-success:hover {
+            background: #3ead63;
         }
 
         .status-badge {
             padding: 5px 10px;
             border-radius: 15px;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 0.85em;
+            font-weight: bold;
         }
 
-        .status-completed {
-            background: #e8f5e8;
-            color: #2e7d2e;
+        .status-completada {
+            background: #48c774;
+            color: white;
         }
 
-        .status-pending {
-            background: #fff3e0;
-            color: #f57c00;
+        .status-en_curso {
+            background: #ffdd57;
+            color: #333;
         }
 
-        .loading {
+        .status-abandonada {
+            background: #f14668;
+            color: white;
+        }
+
+        #loading {
             text-align: center;
             padding: 40px;
-            color: #666;
-            font-size: 1.2rem;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .chart-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-style: italic;
         }
 
         .error-message {
-            text-align: center;
-            padding: 40px;
-            color: #f44336;
-            font-size: 1.2rem;
+            background: #f14668;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
         }
 
-        @media (max-width: 768px) {
-            .charts-container {
-                grid-template-columns: 1fr;
-            }
-
-            .stat-number {
-                font-size: 2rem;
-            }
-
-            .header h1 {
-                font-size: 2rem;
-            }
-
-            .content {
-                padding: 20px;
-            }
-
-            .back-btn {
-                position: static;
-                transform: none;
-                margin-bottom: 15px;
-            }
-
-            .header {
-                text-align: left;
-            }
+        .success-message {
+            background: #48c774;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <a href="/" class="back-btn">
-                ← Volver al inicio
-            </a>
-            <h1>📊 Panel Administrativo</h1>
-            <p>Estadísticas y análisis de datos</p>
+        <header>
+            <h1>🎮 Panel Administrativo - Sirve la Mesa</h1>
+            <p class="subtitle">Sistema de investigación sobre porcionamiento de alimentos</p>
+        </header>
+
+        <div id="loading">
+            <div class="loading-spinner"></div>
+            <p>Cargando datos...</p>
         </div>
 
-        <div class="content">
-            <div class="status-bar" id="connectionStatus">
-                <span>🔄 Cargando datos...</span>
-                <button class="refresh-btn" onclick="loadData()">🔄 Actualizar</button>
-            </div>
-
-            <div class="stats-grid" id="statsGrid">
-                <div class="stat-card total">
-                    <div class="stat-number" id="totalTasks">-</div>
-                    <div class="stat-label">Total de Tareas</div>
+        <div id="content" style="display: none;">
+            <!-- Estadísticas generales -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Participantes</div>
+                    <div class="stat-value" id="total-participantes">0</div>
                 </div>
-                <div class="stat-card completed">
-                    <div class="stat-number" id="completedTasks">-</div>
-                    <div class="stat-label">Completadas</div>
+                <div class="stat-card">
+                    <div class="stat-label">Sesiones Completadas</div>
+                    <div class="stat-value" id="total-sesiones">0</div>
                 </div>
-                <div class="stat-card pending">
-                    <div class="stat-number" id="pendingTasks">-</div>
-                    <div class="stat-label">Pendientes</div>
+                <div class="stat-card">
+                    <div class="stat-label">Decisiones Registradas</div>
+                    <div class="stat-value" id="total-decisiones">0</div>
                 </div>
-            </div>
-
-            <div class="charts-container">
-                <div class="chart-card">
-                    <h3 class="chart-title">Estado de las Tareas</h3>
-                    <div class="chart-container">
-                        <canvas id="statusChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-card">
-                    <h3 class="chart-title">Progreso General</h3>
-                    <div class="chart-container">
-                        <canvas id="progressChart"></canvas>
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-label">Duración Promedio (min)</div>
+                    <div class="stat-value" id="duracion-promedio">0</div>
                 </div>
             </div>
 
-            <div class="data-table">
-                <div class="table-header">
-                    <h3 class="table-title">📋 Últimas Tareas Creadas</h3>
-                </div>
-                <div class="table-container">
-                    <table id="tasksTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Título</th>
-                                <th>Descripción</th>
-                                <th>Estado</th>
-                                <th>Fecha de Creación</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tasksTableBody">
-                            <tr>
-                                <td colspan="5" class="loading">Cargando datos...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <!-- Análisis por Género -->
+            <div class="section">
+                <h2>📊 Análisis por Género del Personaje</h2>
+                <div id="analisis-genero" class="chart-container"></div>
+            </div>
+
+            <!-- Análisis por Edad -->
+            <div class="section">
+                <h2>📈 Análisis por Rango de Edad</h2>
+                <div id="analisis-edad" class="chart-container"></div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="section">
+                <h2>⚙️ Acciones</h2>
+                <button class="btn btn-success" onclick="exportarDatos()">📥 Exportar Datos a CSV</button>
+                <button class="btn" onclick="actualizarDatos()">🔄 Actualizar Datos</button>
+            </div>
+
+            <!-- Estado de la conexión -->
+            <div class="section">
+                <h2>🔗 Estado del Sistema</h2>
+                <p><strong>Estado de la BD:</strong> <span id="db-status">Verificando...</span></p>
+                <p><strong>Última actualización:</strong> <span id="last-update">-</span></p>
             </div>
         </div>
     </div>
 
     <script>
-        let statusChart = null;
-        let progressChart = null;
+        const API_URL = window.location.origin;
+
+        async function cargarEstadisticas() {
+            try {
+                const response = await fetch(`${API_URL}/api/estadisticas/generales`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('total-participantes').textContent = 
+                        Math.round(data.data.total_participantes || 0);
+                    document.getElementById('total-sesiones').textContent = 
+                        Math.round(data.data.total_sesiones || 0);
+                    document.getElementById('total-decisiones').textContent = 
+                        Math.round(data.data.total_decisiones || 0);
+                    
+                    const promedioMin = (data.data.promedio_duracion || 0) / 60;
+                    document.getElementById('duracion-promedio').textContent = 
+                        promedioMin.toFixed(1);
+                }
+            } catch (error) {
+                console.error('Error al cargar estadísticas:', error);
+            }
+        }
+
+        async function cargarAnalisisGenero() {
+            try {
+                const response = await fetch(`${API_URL}/api/estadisticas/por-genero`);
+                const data = await response.json();
+                
+                const container = document.getElementById('analisis-genero');
+                
+                if (data.success && data.data.length > 0) {
+                    let html = '<table><tr><th>Género</th><th>Decisiones</th><th>Promedio (g)</th><th>Total (g)</th></tr>';
+                    data.data.forEach(item => {
+                        const genero = item.personaje_sexo === 'M' ? 'Masculino' : 'Femenino';
+                        html += `<tr>
+                            <td>${genero}</td>
+                            <td>${item.cantidad_decisiones}</td>
+                            <td>${parseFloat(item.promedio_gramos).toFixed(2)}</td>
+                            <td>${parseFloat(item.total_gramos).toFixed(2)}</td>
+                        </tr>`;
+                    });
+                    html += '</table>';
+                    container.innerHTML = html;
+                } else {
+                    container.innerHTML = '<p class="no-data">No hay datos disponibles aún</p>';
+                }
+            } catch (error) {
+                console.error('Error al cargar análisis por género:', error);
+            }
+        }
+
+        async function cargarAnalisisEdad() {
+            try {
+                const response = await fetch(`${API_URL}/api/estadisticas/por-edad`);
+                const data = await response.json();
+                
+                const container = document.getElementById('analisis-edad');
+                
+                if (data.success && data.data.length > 0) {
+                    let html = '<table><tr><th>Rango de Edad</th><th>Decisiones</th><th>Promedio (g)</th><th>Total (g)</th></tr>';
+                    data.data.forEach(item => {
+                        html += `<tr>
+                            <td>${item.personaje_edad_rango || 'No especificado'}</td>
+                            <td>${item.cantidad_decisiones}</td>
+                            <td>${parseFloat(item.promedio_gramos).toFixed(2)}</td>
+                            <td>${parseFloat(item.total_gramos).toFixed(2)}</td>
+                        </tr>`;
+                    });
+                    html += '</table>';
+                    container.innerHTML = html;
+                } else {
+                    container.innerHTML = '<p class="no-data">No hay datos disponibles aún</p>';
+                }
+            } catch (error) {
+                console.error('Error al cargar análisis por edad:', error);
+            }
+        }
+
+        async function verificarConexion() {
+            try {
+                const response = await fetch(`${API_URL}/api/test-connection`);
+                const data = await response.json();
+                
+                if (data.status === 'OK') {
+                    document.getElementById('db-status').innerHTML = 
+                        '<span style="color: #48c774;">✓ Conectado</span>';
+                } else {
+                    document.getElementById('db-status').innerHTML = 
+                        '<span style="color: #f14668;">✗ Error de conexión</span>';
+                }
+            } catch (error) {
+                document.getElementById('db-status').innerHTML = 
+                    '<span style="color: #f14668;">✗ No se puede conectar</span>';
+            }
+        }
+
+        async function actualizarDatos() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('content').style.display = 'none';
+            
+            await cargarTodosDatos();
+        }
+
+        async function cargarTodosDatos() {
+            await Promise.all([
+                cargarEstadisticas(),
+                cargarAnalisisGenero(),
+                cargarAnalisisEdad(),
+                verificarConexion()
+            ]);
+            
+            document.getElementById('last-update').textContent = new Date().toLocaleString('es-ES');
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+        }
+
+        function exportarDatos() {
+            alert('Funcionalidad de exportación a CSV en desarrollo.\nPuedes acceder a los datos directamente desde la base de datos PostgreSQL.');
+            // TODO: Implementar exportación real a CSV
+        }
 
         // Cargar datos al iniciar
-        document.addEventListener('DOMContentLoaded', loadData);
-
-        async function loadData() {
-            try {
-                updateConnectionStatus('loading');
-                
-                // Cargar estadísticas y datos en paralelo
-                const [statsResponse, dataResponse] = await Promise.all([
-                    fetch('/admin/stats'),
-                    fetch('/admin/data')
-                ]);
-
-                if (!statsResponse.ok || !dataResponse.ok) {
-                    throw new Error('Error al cargar los datos');
-                }
-
-                const stats = await statsResponse.json();
-                const data = await dataResponse.json();
-
-                // Actualizar estadísticas
-                updateStats(stats);
-                
-                // Actualizar gráficos
-                updateCharts(stats);
-                
-                // Actualizar tabla
-                updateTable(data.tareas);
-                
-                updateConnectionStatus('success', stats.timestamp);
-                
-            } catch (error) {
-                console.error('Error:', error);
-                updateConnectionStatus('error');
-                showError('Error al cargar los datos del servidor');
-            }
-        }
-
-        function updateStats(stats) {
-            document.getElementById('totalTasks').textContent = stats.total_tareas || 0;
-            document.getElementById('completedTasks').textContent = stats.tareas_completadas || 0;
-            document.getElementById('pendingTasks').textContent = stats.tareas_pendientes || 0;
-        }
-
-        function updateCharts(stats) {
-            const total = stats.total_tareas || 0;
-            const completed = stats.tareas_completadas || 0;
-            const pending = stats.tareas_pendientes || 0;
-
-            // Gráfico de estado (dona)
-            updateStatusChart(completed, pending);
+        window.addEventListener('DOMContentLoaded', () => {
+            cargarTodosDatos();
             
-            // Gráfico de progreso (circular)
-            updateProgressChart(total > 0 ? (completed / total) * 100 : 0);
-        }
-
-        function updateStatusChart(completed, pending) {
-            const ctx = document.getElementById('statusChart').getContext('2d');
-            
-            if (statusChart) {
-                statusChart.destroy();
-            }
-
-            if (completed === 0 && pending === 0) {
-                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                ctx.fillStyle = '#666';
-                ctx.font = '16px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('No hay datos', ctx.canvas.width / 2, ctx.canvas.height / 2);
-                return;
-            }
-
-            statusChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Completadas', 'Pendientes'],
-                    datasets: [{
-                        data: [completed, pending],
-                        backgroundColor: ['#4caf50', '#ff9800'],
-                        borderColor: ['#45a049', '#f57c00'],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function updateProgressChart(percentage) {
-            const ctx = document.getElementById('progressChart').getContext('2d');
-            
-            if (progressChart) {
-                progressChart.destroy();
-            }
-
-            progressChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Completado', 'Restante'],
-                    datasets: [{
-                        data: [percentage, 100 - percentage],
-                        backgroundColor: ['#2196f3', '#e0e0e0'],
-                        borderColor: ['#1976d2', '#bdbdbd'],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    elements: {
-                        center: {
-                            text: Math.round(percentage) + '%',
-                            color: '#333',
-                            fontStyle: 'Arial',
-                            sidePadding: 20,
-                            fontSize: 24
-                        }
-                    }
-                },
-                plugins: [{
-                    beforeDraw: function(chart) {
-                        const width = chart.width;
-                        const height = chart.height;
-                        const ctx = chart.ctx;
-                        
-                        ctx.restore();
-                        const fontSize = (height / 114).toFixed(2);
-                        ctx.font = fontSize + "em sans-serif";
-                        ctx.textBaseline = "middle";
-                        ctx.fillStyle = "#333";
-                        
-                        const text = Math.round(percentage) + "%";
-                        const textX = Math.round((width - ctx.measureText(text).width) / 2);
-                        const textY = height / 2;
-                        
-                        ctx.fillText(text, textX, textY);
-                        ctx.save();
-                    }
-                }]
-            });
-        }
-
-        function updateTable(tasks) {
-            const tbody = document.getElementById('tasksTableBody');
-            
-            if (!tasks || tasks.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #666;">No hay tareas registradas</td></tr>';
-                return;
-            }
-
-            // Mostrar las últimas 10 tareas
-            const recentTasks = tasks.slice(0, 10);
-            
-            tbody.innerHTML = recentTasks.map(task => `
-                <tr>
-                    <td>${task.id}</td>
-                    <td>${escapeHtml(task.titulo)}</td>
-                    <td>${task.descripcion ? escapeHtml(task.descripcion.substring(0, 50)) + '...' : 'Sin descripción'}</td>
-                    <td>
-                        <span class="status-badge ${task.completada ? 'status-completed' : 'status-pending'}">
-                            ${task.completada ? 'Completada' : 'Pendiente'}
-                        </span>
-                    </td>
-                    <td>${formatDate(task.fecha_creacion)}</td>
-                </tr>
-            `).join('');
-        }
-
-        function updateConnectionStatus(status, timestamp = null) {
-            const statusBar = document.getElementById('connectionStatus');
-            
-            switch (status) {
-                case 'loading':
-                    statusBar.innerHTML = '<span>🔄 Cargando datos...</span><button class="refresh-btn" onclick="loadData()" disabled>🔄 Actualizar</button>';
-                    statusBar.className = 'status-bar';
-                    break;
-                case 'success':
-                    const timeStr = timestamp ? new Date(timestamp).toLocaleString('es-ES') : new Date().toLocaleString('es-ES');
-                    statusBar.innerHTML = `<span>✅ Datos actualizados - ${timeStr}</span><button class="refresh-btn" onclick="loadData()">🔄 Actualizar</button>`;
-                    statusBar.className = 'status-bar';
-                    break;
-                case 'error':
-                    statusBar.innerHTML = '<span>❌ Error de conexión</span><button class="refresh-btn" onclick="loadData()">🔄 Reintentar</button>';
-                    statusBar.className = 'status-bar error';
-                    break;
-            }
-        }
-
-        function showError(message) {
-            document.getElementById('tasksTableBody').innerHTML = `<tr><td colspan="5" class="error-message">${message}</td></tr>`;
-        }
-
-        // Utilidades
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleString('es-ES', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-
-        // Auto-actualización cada 30 segundos
-        setInterval(loadData, 30000);
+            // Actualizar cada 30 segundos
+            setInterval(actualizarDatos, 30000);
+        });
     </script>
 </body>
 </html>
