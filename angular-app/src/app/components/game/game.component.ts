@@ -1,15 +1,25 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { GameDataService, PersonajeSintetico, Ingrediente } from '../../services/game-data.service';
-import { IngredienteEnPlato } from '../drag-drop/plato-drop-zone/plato-drop-zone.component';
-import { ComponenteServido, Decision } from '../../models/decision.model';
+import { IngredienteEnPlato, PlatoDropZoneComponent } from '../drag-drop/plato-drop-zone/plato-drop-zone.component';
+import { ComponenteServido } from '../../models/decision.model';
+import { PersonajesComponent } from '../personajes/personajes.component';
+import { IngredientesComponent } from '../ingredientes/ingredientes.component';
 
 @Component({
   selector: 'app-game',
+  standalone: true,
+  imports: [
+    CommonModule,
+    PlatoDropZoneComponent,
+    PersonajesComponent,
+    IngredientesComponent
+  ],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss']
 })
@@ -22,7 +32,7 @@ export class GameComponent implements OnInit, OnDestroy {
   personajes: PersonajeSintetico[] = [];
   ingredientes: Ingrediente[] = [];
   ingredientesEnPlato: IngredienteEnPlato[] = [];
-  
+
   // Flags
   loading = false;
   enviandoDecisiones = false;
@@ -34,7 +44,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   constructor(
     private apiService: ApiService,
-    private authService: AuthService,
+    public authService: AuthService,  // Público para acceder desde template
     private gameDataService: GameDataService,
     private router: Router
   ) {}
@@ -75,7 +85,7 @@ export class GameComponent implements OnInit, OnDestroy {
   inicializarJuego(): void {
     // Resetear juego
     this.gameDataService.resetearJuego();
-    
+
     // Cargar primer personaje
     const primerPersonaje = this.gameDataService.obtenerSiguientePersonaje();
     if (primerPersonaje) {
@@ -119,7 +129,7 @@ export class GameComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const decision: Decision = {
+    const decision = {
       sesion_id: sesionId,
       escenario: this.escenarioActual,
       personaje_tipo: this.personajeActual.tipo,
@@ -148,7 +158,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private siguienteAccion(): void {
     // Verificar si quedan personajes en el escenario actual
     const siguientePersonaje = this.gameDataService.obtenerSiguientePersonaje();
-    
+
     if (siguientePersonaje) {
       // Seleccionar siguiente personaje
       this.seleccionarPersonaje(siguientePersonaje);
@@ -203,7 +213,7 @@ export class GameComponent implements OnInit, OnDestroy {
           this.authService.updateSesionStatus('completada');
           this.juegoCompletado = true;
           this.mostrarExito('¡Juego completado! Gracias por participar.');
-          
+
           // Navegar a pantalla de agradecimiento después de 3 segundos
           setTimeout(() => {
             this.authService.clearSession();
@@ -221,7 +231,7 @@ export class GameComponent implements OnInit, OnDestroy {
     this.ingredientesEnPlato = [];
   }
 
-  private getNombreEscenario(): string {
+  getNombreEscenario(): string {
     const nombres = {
       'desayuno': 'Desayuno',
       'almuerzo': 'Almuerzo',

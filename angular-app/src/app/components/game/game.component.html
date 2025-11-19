@@ -22,7 +22,7 @@
     <!-- Panel izquierdo: Ingredientes -->
     <aside class="ingredientes-panel">
       <h2 class="font-title">Ingredientes</h2>
-      <app-ingredientes 
+      <app-ingredientes
         [ingredientes]="ingredientes"
         [escenarioActual]="escenarioActual">
       </app-ingredientes>
@@ -47,7 +47,7 @@
     <!-- Panel derecho: Personajes -->
     <aside class="personajes-panel">
       <h2 class="font-title">Personajes</h2>
-      <app-personajes 
+      <app-personajes
         [personajes]="personajes"
         [personajeActual]="personajeActual"
         (personajeSeleccionado)="onPersonajeSeleccionado($event)">
@@ -68,20 +68,20 @@
   <!-- Indicador de progreso -->
   <div class="progreso-container">
     <div class="progreso-escenarios">
-      <div class="escenario-item" 
+      <div class="escenario-item"
            [class.activo]="escenarioActual === 'desayuno'"
            [class.completado]="escenarioActual !== 'desayuno'">
         <span class="font-text">Desayuno</span>
       </div>
-      <div class="escenario-item" 
+      <div class="escenario-item"
            [class.activo]="escenarioActual === 'almuerzo'"
            [class.completado]="escenarioActual === 'cena'">
         <span class="font-text">Almuerzo</span>
       </div>
-      <div class="escenario-item" 
+      <div class="escenario-item"
            [class.activo]="escenarioActual === 'cena'">
         <span class="font-text">Cena</span>
       </div>
     </div>
   </div>
-}
+</div>

@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Sesiones_juego (
     
     -- Metadata
     dispositivo VARCHAR(50), -- web, desktop, etc.
-    navegador VARCHAR(100),
+    navegador TEXT, -- User agent del navegador (sin límite de caracteres)
     resolucion_pantalla VARCHAR(20),
     
     -- Datos adicionales

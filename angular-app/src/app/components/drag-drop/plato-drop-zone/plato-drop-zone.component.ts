@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { ComponenteServido } from '../../../models/decision.model';
 import { Ingrediente } from '../../../services/game-data.service';
 
@@ -11,6 +13,8 @@ export interface IngredienteEnPlato {
 
 @Component({
   selector: 'app-plato-drop-zone',
+  standalone: true,
+  imports: [CommonModule, FormsModule, DragDropModule],
   templateUrl: './plato-drop-zone.component.html',
   styleUrls: ['./plato-drop-zone.component.scss']
 })
@@ -31,17 +35,17 @@ export class PlatoDropZoneComponent implements OnInit {
   onDrop(event: CdkDragDrop<any>): void {
     if (event.previousContainer !== event.container) {
       const ingrediente = event.item.data as Ingrediente;
-      
+
       // Verificar si el ingrediente ya está en el plato
       const existente = this.ingredientesEnPlato.find(i => i.ingrediente.id === ingrediente.id);
-      
+
       if (!existente) {
         const nuevoIngrediente: IngredienteEnPlato = {
           ingrediente: ingrediente,
           cantidad: ingrediente.porcionDefault,
           unidad: ingrediente.unidad
         };
-        
+
         this.ingredienteAgregado.emit(nuevoIngrediente);
         this.calcularCantidadTotal();
       }
@@ -91,7 +95,7 @@ export class PlatoDropZoneComponent implements OnInit {
   servirPlato(): void {
     const componentesServidos: ComponenteServido[] = this.ingredientesEnPlato.map(item => {
       let cantidadEnGramos = item.cantidad;
-      
+
       // Convertir a gramos si es necesario
       if (item.unidad !== 'gramos') {
         // Usar la misma lógica de conversión

@@ -1,8 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PersonajeSintetico } from '../../services/game-data.service';
 
 @Component({
   selector: 'app-personajes',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './personajes.component.html',
   styleUrls: ['./personajes.component.scss']
 })

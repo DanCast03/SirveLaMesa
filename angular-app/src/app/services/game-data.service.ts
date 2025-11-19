@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import ingredientesData from '../../assets/images/ingredientes/ingredientes-data.json';
 
 export interface Ingrediente {
   id: number;
@@ -29,7 +28,7 @@ export interface ComponenteServido {
 }
 
 export interface Decision {
-  sesion_id: number;
+  sesion_id?: number;
   escenario: 'desayuno' | 'almuerzo' | 'cena';
   personaje_tipo: string;
   personaje_edad_rango: string;
@@ -75,12 +74,42 @@ export class GameDataService {
   public ingredientes$ = this.ingredientesSubject.asObservable();
 
   constructor() {
-    // Cargar ingredientes del JSON
+    // Cargar ingredientes (hardcoded por ahora)
     this.cargarIngredientes();
   }
 
   private cargarIngredientes(): void {
-    this.ingredientesSubject.next(ingredientesData.ingredientes);
+    const ingredientes: Ingrediente[] = [
+      { id: 1, nombre: 'Carne', imagen: 'carne.png', categoria: 'proteina', unidad: 'gramos', porcionDefault: 100 },
+      { id: 2, nombre: 'Pollo Frito', imagen: 'pollo_frito.png', categoria: 'proteina', unidad: 'gramos', porcionDefault: 150 },
+      { id: 3, nombre: 'Muslo de Pollo', imagen: 'muslo_de_pollo.png', categoria: 'proteina', unidad: 'gramos', porcionDefault: 120 },
+      { id: 4, nombre: 'Pescado', imagen: 'pescado.png', categoria: 'proteina', unidad: 'gramos', porcionDefault: 150 },
+      { id: 5, nombre: 'Tocineta', imagen: 'tocineta.png', categoria: 'proteina', unidad: 'gramos', porcionDefault: 30 },
+      { id: 6, nombre: 'Salchicha', imagen: 'salchicha.png', categoria: 'proteina', unidad: 'gramos', porcionDefault: 50 },
+      { id: 7, nombre: 'Huevo Frito', imagen: 'huevo_frito.png', categoria: 'proteina', unidad: 'unidad', porcionDefault: 1 },
+      { id: 8, nombre: 'Papa', imagen: 'papa.png', categoria: 'carbohidrato', unidad: 'gramos', porcionDefault: 150 },
+      { id: 9, nombre: 'Pan Tostado', imagen: 'pan tostado.png', categoria: 'carbohidrato', unidad: 'rebanadas', porcionDefault: 2 },
+      { id: 10, nombre: 'Bagel', imagen: 'bagle.png', categoria: 'carbohidrato', unidad: 'unidad', porcionDefault: 1 },
+      { id: 11, nombre: 'Croissant', imagen: 'croisant1.png', categoria: 'carbohidrato', unidad: 'unidad', porcionDefault: 1 },
+      { id: 12, nombre: 'Crackers', imagen: 'crackers.png', categoria: 'carbohidrato', unidad: 'gramos', porcionDefault: 30 },
+      { id: 13, nombre: 'Muffin', imagen: 'muffin.png', categoria: 'carbohidrato', unidad: 'unidad', porcionDefault: 1 },
+      { id: 14, nombre: 'Zanahoria', imagen: 'zanahoria.png', categoria: 'vegetal', unidad: 'gramos', porcionDefault: 80 },
+      { id: 15, nombre: 'Tomate', imagen: 'tomate.png', categoria: 'vegetal', unidad: 'gramos', porcionDefault: 100 },
+      { id: 16, nombre: 'Tomate Cherry', imagen: 'tomate_cherry.png', categoria: 'vegetal', unidad: 'unidades', porcionDefault: 5 },
+      { id: 17, nombre: 'Pepino', imagen: 'pepino.png', categoria: 'vegetal', unidad: 'gramos', porcionDefault: 50 },
+      { id: 18, nombre: 'Aguacate', imagen: 'aguacate.png', categoria: 'vegetal', unidad: 'gramos', porcionDefault: 100 },
+      { id: 19, nombre: 'Espárragos', imagen: 'esparragos.png', categoria: 'vegetal', unidad: 'gramos', porcionDefault: 80 },
+      { id: 20, nombre: 'Manzana', imagen: 'manzana.png', categoria: 'fruta', unidad: 'unidad', porcionDefault: 1 },
+      { id: 21, nombre: 'Naranja', imagen: 'naranja.png', categoria: 'fruta', unidad: 'unidad', porcionDefault: 1 },
+      { id: 22, nombre: 'Cambur', imagen: 'cambur.png', categoria: 'fruta', unidad: 'unidad', porcionDefault: 1 },
+      { id: 23, nombre: 'Fresa', imagen: 'fresa.png', categoria: 'fruta', unidad: 'gramos', porcionDefault: 100 },
+      { id: 24, nombre: 'Frambuesas', imagen: 'frambuesas.png', categoria: 'fruta', unidad: 'gramos', porcionDefault: 50 },
+      { id: 25, nombre: 'Durazno', imagen: 'durazno.png', categoria: 'fruta', unidad: 'unidad', porcionDefault: 1 },
+      { id: 26, nombre: 'Patilla', imagen: 'patilla.png', categoria: 'fruta', unidad: 'gramos', porcionDefault: 200 },
+      { id: 27, nombre: 'Nueces', imagen: 'nueces.png', categoria: 'fruta', unidad: 'gramos', porcionDefault: 30 }
+    ];
+
+    this.ingredientesSubject.next(ingredientes);
   }
 
   private resetearPersonajes(): PersonajeSintetico[] {
@@ -120,7 +149,7 @@ export class GameDataService {
 
   setPersonajeActual(personaje: PersonajeSintetico): void {
     // Marcar personaje como en curso
-    const personajes = this.personajesSubject.value.map(p => 
+    const personajes = this.personajesSubject.value.map(p =>
       p.id === personaje.id ? { ...p, estado: 'en_curso' as const } : p
     );
     this.personajesSubject.next(personajes);
@@ -129,7 +158,7 @@ export class GameDataService {
   }
 
   marcarPersonajeServido(personajeId: number): void {
-    const personajes = this.personajesSubject.value.map(p => 
+    const personajes = this.personajesSubject.value.map(p =>
       p.id === personajeId ? { ...p, estado: 'servido' as const } : p
     );
     this.personajesSubject.next(personajes);

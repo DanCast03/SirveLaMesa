@@ -1,8 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { Ingrediente } from '../../services/game-data.service';
+import { IngredienteComponent } from '../drag-drop/ingrediente/ingrediente.component';
 
 @Component({
   selector: 'app-ingredientes',
+  standalone: true,
+  imports: [CommonModule, DragDropModule, IngredienteComponent],
   templateUrl: './ingredientes.component.html',
   styleUrls: ['./ingredientes.component.scss']
 })
@@ -28,7 +33,7 @@ export class IngredientesComponent implements OnInit {
 
   filtrarPorCategoria(categoria: string): void {
     this.categoriaSeleccionada = categoria;
-    
+
     if (categoria === 'todos') {
       this.ingredientesFiltrados = this.ingredientes;
     } else {

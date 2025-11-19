@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -58,7 +61,7 @@ export class LoginComponent implements OnInit {
         if (response.success && response.data) {
           // Guardar datos del participante
           this.authService.setParticipante(response.data);
-          
+
           // Iniciar sesión
           this.iniciarSesion(response.data.pk_participante);
         }
@@ -75,7 +78,7 @@ export class LoginComponent implements OnInit {
     const sessionData = {
       participante_id: participanteId,
       dispositivo: 'web',
-      navegador: navigator.userAgent,
+      navegador: navigator.userAgent, // Campo TEXT sin límite
       resolucion_pantalla: `${window.screen.width}x${window.screen.height}`
     };
 
@@ -84,7 +87,7 @@ export class LoginComponent implements OnInit {
         if (response.success && response.data) {
           // Guardar sesión
           this.authService.setSesion(response.data);
-          
+
           // Navegar al juego
           this.router.navigate(['/juego']);
         }

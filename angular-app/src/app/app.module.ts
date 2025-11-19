@@ -8,7 +8,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 // Routing
 import { AppRoutingModule } from './app-routing.module';
 
-// Components
+// Components (standalone)
 import { AppComponent } from './app.component';
 
 // Services
@@ -17,9 +17,6 @@ import { AuthService } from './services/auth.service';
 import { GameDataService } from './services/game-data.service';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -27,7 +24,8 @@ import { GameDataService } from './services/game-data.service';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    DragDropModule
+    DragDropModule,
+    AppComponent  // Import standalone component instead of declaring
   ],
   providers: [
     ApiService,
