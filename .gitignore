@@ -134,3 +134,9 @@ dist
 
 # Godot
 shity ass prueba/
+
+# Angular
+angular-app/node_modules/
+angular-app/dist/
+angular-app/package-lock.json
+angular-app/.angular/cache/

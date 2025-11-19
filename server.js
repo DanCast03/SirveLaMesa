@@ -50,8 +50,14 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Servir archivos estáticos
 app.use(express.static('public'));
 
-// Servir el juego de Godot
-app.use('/game', express.static('public/game'));
+// Servir aplicación Angular en producción
+if (process.env.NODE_ENV === 'production') {
+  // Servir archivos estáticos de Angular
+  app.use(express.static(path.join(__dirname, 'angular-app/dist/sirve-la-mesa')));
+} else {
+  // En desarrollo, el proxy de Angular maneja las rutas
+  console.log('En modo desarrollo, usar ng serve en puerto 4200');
+}
 
 // ===================================
 // CONFIGURACIÓN DE BASE DE DATOS
@@ -241,15 +247,22 @@ io.on('connection', (socket) => {
 });
 
 // ===================================
-// MANEJO DE ERRORES 404
+// MANEJO DE ERRORES 404 y SPA
 // ===================================
 
-app.use((req, res) => {
-  res.status(404).json({ 
-    error: 'Ruta no encontrada',
-    path: req.path 
+// En producción, servir index.html de Angular para todas las rutas no-API
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'angular-app/dist/sirve-la-mesa/index.html'));
   });
-});
+} else {
+  app.use((req, res) => {
+    res.status(404).json({ 
+      error: 'Ruta no encontrada',
+      path: req.path 
+    });
+  });
+}
 
 // ===================================
 // INICIAR SERVIDOR

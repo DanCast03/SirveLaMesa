@@ -12,7 +12,8 @@ class GameDataController {
   
   async crearParticipante(datos) {
     const {
-      edad, sexo, peso_kg, altura_cm,
+      nombres, edad, sexo,
+      peso_kg, altura_cm,
       lugar_nacimiento, lugar_residencia,
       ocupacion, nivel_socioeconomico,
       eat26_score, eat26_data,
@@ -25,17 +26,17 @@ class GameDataController {
 
     const query = `
       INSERT INTO Participantes (
-        edad, sexo, peso_kg, altura_cm, imc,
+        nombres, edad, sexo, peso_kg, altura_cm, imc,
         lugar_nacimiento, lugar_residencia,
         ocupacion, nivel_socioeconomico,
         eat26_score, eat26_data,
         consentimiento_informado, notas
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
       RETURNING *
     `;
 
     const values = [
-      edad, sexo, peso_kg, altura_cm, imc,
+      nombres, edad, sexo, peso_kg, altura_cm, imc,
       lugar_nacimiento, lugar_residencia,
       ocupacion, nivel_socioeconomico,
       eat26_score, eat26_data ? JSON.stringify(eat26_data) : null,
